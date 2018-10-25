@@ -56,6 +56,11 @@ public class MorseDecoder {
         for (int binIndex = 0; binIndex < totalBinCount; binIndex++) {
             // Get the right number of samples from the inputFile
             // Sum all the samples together and store them in the returnBuffer
+            inputFile.readFrames(sampleBuffer, BIN_SIZE);
+            double sum = 0;
+            for (double i : sampleBuffer) {
+                sum += i;
+            }
         }
         return returnBuffer;
     }
@@ -65,31 +70,6 @@ public class MorseDecoder {
 
     /** Bin threshold for dots or dashes. Related to BIN_SIZE. You may need to modify this value. */
     private static final int DASH_BIN_COUNT = 8;
-
-    /**
-     * Convert power measurements to dots, dashes, and spaces.
-     * <p>
-     * This function receives the result from binWavPower. It's job is to convert intervals of tone
-     * or silence into dots (short tone), dashes (long tone), or space (long silence).
-     * <p>
-     * Write this function.
-     *
-     * @param powerMeasurements the array of power measurements from binWavPower
-     * @return the Morse code string of dots, dashes, and spaces
-     */
-    private static String powerToDotDash(final double[] powerMeasurements) {
-        /*
-         * There are four conditions to handle. Symbols should only be output when you see
-         * transitions. You will also have to store how much power or silence you have seen.
-         */
-
-        // if ispower and waspower
-        // else if ispower and not waspower
-        // else if issilence and wassilence
-        // else if issilence and not wassilence
-
-        return "";
-    }
 
     /**
      * Morse code to alpha mapping.
@@ -242,5 +222,36 @@ public class MorseDecoder {
             }
         }
         lineScanner.close();
+    }
+
+    /**
+     * Convert power measurements to dots, dashes, and spaces.
+     * <p>
+     * This function receives the result from binWavPower. It's job is to convert intervals of tone
+     * or silence into dots (short tone), dashes (long tone), or space (long silence).
+     * <p>
+     * Write this function.
+     *
+     * @param powerMeasurements the array of power measurements from binWavPower
+     * @return the Morse code string of dots, dashes, and spaces
+     */
+    private static String powerToDotDash(final double[] powerMeasurements) {
+        /*
+         * There are four conditions to handle. Symbols should only be output when you see
+         * transitions. You will also have to store how much power or silence you have seen.
+         */
+        boolean ispower = false, waspower = false;
+        int measure = 0;
+        for (int i = 0; i < powerMeasurements.length; i++) {
+            if (ispower) {
+
+            }
+        }
+        // if ispower and waspower
+        // else if ispower and not waspower
+        // else if issilence and wassilence
+        // else if issilence and not wassilence
+
+        return "";
     }
 }
